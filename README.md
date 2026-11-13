@@ -78,6 +78,7 @@ All access goes through RLS policies of the form `auth.uid() = user_id` for `sel
 - **Supabase free-tier projects pause after ~7 days without activity.** Your data is retained — open the Supabase dashboard and click **Restore** to wake the project. Logging into the app regularly keeps it active.
 - **Blank page / setup screen after deploying** — the repository secrets are missing or were added after the last build. Re-run the deploy workflow.
 - **`Invalid login credentials`** — the user does not exist or the password is wrong. Create/reset it under **Authentication → Users**.
+- **`permission denied for table tasks`** while signed in — table privileges were not granted automatically. Run the `grant ...` statements at the end of `supabase/schema.sql` in the SQL Editor. RLS filters rows; these grants decide whether the role may touch the table at all.
 - **"New users are not allowed"** while creating a user — signups are disabled (as intended); use **Authentication → Users → Add user** instead.
 - **Syllabus appears empty on a brand-new account** — the seed runs on first visit. Reload the page once if the insert was interrupted.
 - Local env values live in `.env`, which is git-ignored. Production values come from GitHub Actions secrets.

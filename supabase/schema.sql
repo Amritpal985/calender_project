@@ -72,6 +72,14 @@ create trigger syllabus_set_updated_at
 alter table public.tasks enable row level security;
 alter table public.syllabus_topics enable row level security;
 
+-- Table privileges are checked before RLS. Some Supabase projects do not
+-- grant these by default for tables created via the SQL Editor, which
+-- surfaces as "permission denied for table tasks" even when signed in.
+-- Only `authenticated` gets access; `anon` stays locked out entirely.
+grant usage on schema public to authenticated;
+grant select, insert, update, delete on table public.tasks to authenticated;
+grant select, insert, update, delete on table public.syllabus_topics to authenticated;
+
 drop policy if exists "tasks_select_own" on public.tasks;
 create policy "tasks_select_own"
   on public.tasks for select to authenticated
